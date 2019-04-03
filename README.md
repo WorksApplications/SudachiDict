@@ -1,6 +1,6 @@
 # SudachiDict
 
-A lexicon for Japanese morphological analyzer
+A lexicon for Japanese tokenizer
 [Sudachi](https://github.com/WorksApplications/Sudachi/).
 
 ## Latest version
