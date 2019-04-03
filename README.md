@@ -3,6 +3,18 @@
 A lexicon for Japanese morphological analyzer
 [Sudachi](https://github.com/WorksApplications/Sudachi/).
 
+## Latest version
+
+* [sudachi-dictionary-20190308-core.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190308-core.zip)
+* [sudachi-dictionary-20190308-full.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190308-full.zip)
+
+## Dictionary type
+
+Sudachi has two types of dictionaries.
+
+* Core: includes basic vocabulary (default)
+* Full: includes miscellaneous proper nouns
+
 ## Build
 
 Sudachi needs [Git LFS](https://git-lfs.github.com/) to download the sourses
