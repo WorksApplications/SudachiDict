@@ -5,8 +5,8 @@ LEGAL NOTICE INFORMATION
 version 2.0. (see the file LICENSE-2.0.txt)
 
 
-- src/main/text/core_lex.csv and src/main/text/notcore_lex.csv contain
-a part of UniDic (https://unidic.ninjal.ac.jp/).
+- src/main/text/small_lex.csv contains a part
+  of UniDic (https://unidic.ninjal.ac.jp/).
 - src/main/text/matrix.def.zip is a part of UniDic.
 
 Copyright (c) 2011-2013, The UniDic Consortium
