@@ -11,7 +11,7 @@ A lexicon for Japanese tokenizer
 
 ## Dictionary types
 
-Sudachi has tree types of dictionaries.
+Sudachi has three types of dictionaries.
 
 * Small: includes only the vocabulary of UniDic
 * Core: includes basic vocabulary (default)
