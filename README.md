@@ -5,19 +5,21 @@ A lexicon for Japanese tokenizer
 
 ## Latest version
 
-* [sudachi-dictionary-20190308-core.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190308-core.zip)
-* [sudachi-dictionary-20190308-full.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190308-full.zip)
+* [sudachi-dictionary-20190425-small.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190425-small.zip)
+* [sudachi-dictionary-20190425-core.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190425-core.zip)
+* [sudachi-dictionary-20190425-full.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190425-full.zip)
 
-## Dictionary type
+## Dictionary types
 
-Sudachi has two types of dictionaries.
+Sudachi has tree types of dictionaries.
 
+* Small: includes only the vocabulary of UniDic
 * Core: includes basic vocabulary (default)
 * Full: includes miscellaneous proper nouns
 
-## Build
+## Build from sources
 
-Sudachi needs [Git LFS](https://git-lfs.github.com/) to download the sourses
+SudachiDict needs [Git LFS](https://git-lfs.github.com/) to download the sourses
 of the system dictionaries. If you fail to build the dictionaries, install
 Git LFS and `git lfs pull`.
 

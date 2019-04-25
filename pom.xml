@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.worksap.nlp</groupId>
   <artifactId>sudachi-dictionary</artifactId>
-  <version>20190308</version>
+  <version>20190425</version>
   <packaging>pom</packaging>
   <name>Sudachi System Dictionary</name>
 
@@ -11,6 +11,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
     <dictionary.src.directory>src/main/text</dictionary.src.directory>
+    <small.src>${dictionary.src.directory}/small_lex.csv</small.src>
     <core.src>${dictionary.src.directory}/core_lex.csv</core.src>
     <notcore.src>${dictionary.src.directory}/notcore_lex.csv</notcore.src>
     <unidic.matrix>${dictionary.src.directory}/matrix.def.zip</unidic.matrix>
@@ -54,6 +55,25 @@
         <version>1.6.0</version>
         <executions>
           <execution>
+            <id>build-system-small-dict</id>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <phase>compile</phase>
+            <configuration>
+	      <mainClass>${dictionary.builder}</mainClass>
+	      <arguments>
+                <argument>-o</argument>
+	        <argument>${project.build.directory}/system_small.dic</argument>
+                <argument>-m</argument>
+	        <argument>${project.build.directory}/matrix.def</argument>
+                <argument>-d</argument>
+                <argument>${project.version}</argument>
+                <argument>${small.src}</argument>
+	      </arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>build-system-core-dict</id>
             <goals>
               <goal>java</goal>
@@ -68,6 +88,7 @@
 	        <argument>${project.build.directory}/matrix.def</argument>
                 <argument>-d</argument>
                 <argument>${project.version}</argument>
+                <argument>${small.src}</argument>
                 <argument>${core.src}</argument>
 	      </arguments>
             </configuration>
@@ -87,6 +108,7 @@
 	        <argument>${project.build.directory}/matrix.def</argument>
                 <argument>-d</argument>
                 <argument>${project.version}</argument>
+                <argument>${small.src}</argument>
                 <argument>${core.src}</argument>
                 <argument>${notcore.src}</argument>
 	      </arguments>
@@ -115,7 +137,7 @@
               <goal>iterator</goal>
             </goals>
             <configuration>
-              <content>core,full</content>
+              <content>small,core,full</content>
               <pluginExecutors>
                 <pluginExecutor>
                   <plugin>
