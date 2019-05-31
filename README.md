@@ -5,9 +5,9 @@ A lexicon for Japanese tokenizer
 
 ## Latest version
 
-* [sudachi-dictionary-20190425-small.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190425-small.zip)
-* [sudachi-dictionary-20190425-core.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190425-core.zip)
-* [sudachi-dictionary-20190425-full.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190425-full.zip)
+* [sudachi-dictionary-20190531-small.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190531-small.zip)
+* [sudachi-dictionary-20190531-core.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190531-core.zip)
+* [sudachi-dictionary-20190531-full.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190531-full.zip)
 
 ## Dictionary types
 
