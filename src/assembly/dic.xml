@@ -16,7 +16,7 @@
     <fileSet>
       <outputDirectory></outputDirectory>
       <includes>
-        <include>LEAGAL</include>
+        <include>LEGAL</include>
         <include>LICENSE-2.0.txt</include>
       </includes>
     </fileSet>
