@@ -1,0 +1,24 @@
+from setuptools import setup, find_packages
+
+
+def load_text(path):
+    with open(path, 'r') as f:
+        return f.read()
+
+
+package = "sudachidict_%%DIC_TYPE%%"
+
+
+setup(name="SudachiDict_%%DIC_TYPE%%",
+      version="%%VERSION%%",
+      description="A lexicon for Sudachi, the Japanese Morphological Analyzer",
+      long_description=load_text("README.md"),
+      long_description_content_type="text/markdown",
+      author="Works Applications Co.,Ltd.",
+      author_email="takaoka_k@worksap.co.jp",
+      url="https://github.com/WorksApplications/SudachiDict",
+      license="Apache-2.0",
+      packages=[package],
+      package_data={package: ["__init__.py", "resources/system.dic", "resources/README.md"]},
+      install_requires=["SudachiPy>=0.2.1"],
+      )
