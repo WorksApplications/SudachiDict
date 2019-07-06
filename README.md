@@ -9,6 +9,13 @@ A lexicon for Japanese tokenizer
 * [sudachi-dictionary-20190531-core.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190531-core.zip)
 * [sudachi-dictionary-20190531-full.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190531-full.zip)
 
+### Python packages
+
+* [SudachiDict_small-20190531.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_small-20190531.tar.gz)
+* [SudachiDict_core-20190531.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_core-20190531.tar.gz)
+* [SudachiDict_full-20190531.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_full-20190531.tar.gz)
+
+
 ## Dictionary types
 
 Sudachi has three types of dictionaries.
