@@ -11,9 +11,9 @@ A lexicon for Japanese tokenizer
 
 ### Python packages
 
-* [SudachiDict_small-20190718.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_small-20190718.tar.gz)
-* [SudachiDict_core-20190718.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_core-20190718.tar.gz)
-* [SudachiDict_full-20190718.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_full-20190718.tar.gz)
+* [SudachiDict_small-20190718.1.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_small-20190718.1.tar.gz)
+* [SudachiDict_core-20190718.1.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_core-20190718.1.tar.gz)
+* [SudachiDict_full-20190718.1.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_full-20190718.1.tar.gz)
 
 
 ## Dictionary types
