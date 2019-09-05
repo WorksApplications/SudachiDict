@@ -19,6 +19,6 @@ setup(name="SudachiDict_%%DIC_TYPE%%",
       url="https://github.com/WorksApplications/SudachiDict",
       license="Apache-2.0",
       packages=[package],
-      package_data={package: ["__init__.py", "resources/system.dic", "resources/README.md", "resources/LEGAL", "resources/LICENSE-2.0.txt"]},
+      package_data={package: ["__init__.py", "README.md", "LEGAL", "LICENSE-2.0.txt", "resources/system.dic"]},
       install_requires=["SudachiPy>=0.2.1"],
       )
