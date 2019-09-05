@@ -15,6 +15,9 @@ do
     touch ${pkg}/__init__.py
     cp target/system_${dic_type}.dic ${pkg}/resources/system.dic
     cp README.md ${temp}
+    cp LEGAL ${temp}
+    cp LICENSE-2.0.txt ${temp}
+    cp MANIFEST.in ${temp}
     cat setup.py.template | sed "s/%%VERSION%%/${version}/g" | sed "s/%%DIC_TYPE%%/${dic_type}/g" > ${temp}/setup.py
     cd ${temp}
     python setup.py sdist
