@@ -5,15 +5,15 @@ A lexicon for Japanese tokenizer
 
 ## Latest version
 
-* [sudachi-dictionary-20190927-small.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190927-small.zip)
-* [sudachi-dictionary-20190927-core.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190927-core.zip)
-* [sudachi-dictionary-20190927-full.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20190927-full.zip)
+* [sudachi-dictionary-20191030-small.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20191030-small.zip)
+* [sudachi-dictionary-20191030-core.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20191030-core.zip)
+* [sudachi-dictionary-20191030-full.zip](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/sudachi-dictionary-20191030-full.zip)
 
 ### Python packages
 
-* [SudachiDict_small-20190927.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_small-20190927.tar.gz)
-* [SudachiDict_core-20190927.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_core-20190927.tar.gz)
-* [SudachiDict_full-20190927.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_full-20190927.tar.gz)
+* [SudachiDict_small-20191030.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_small-20191030.tar.gz)
+* [SudachiDict_core-20191030.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_core-20191030.tar.gz)
+* [SudachiDict_full-20191030.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_full-20191030.tar.gz)
 
 
 ## Dictionary types
