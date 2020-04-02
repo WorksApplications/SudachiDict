@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.worksap.nlp</groupId>
   <artifactId>sudachi-dictionary</artifactId>
-  <version>20200127</version>
+  <version>20200330</version>
   <packaging>pom</packaging>
   <name>Sudachi System Dictionary</name>
 
@@ -161,7 +161,7 @@
     <dependency>
       <groupId>com.worksap.nlp</groupId>
       <artifactId>sudachi</artifactId>
-      <version>0.2.0</version>
+      <version>0.3.2</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
