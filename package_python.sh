@@ -20,8 +20,8 @@ do
     cp MANIFEST.in ${temp}
     cat setup.py.template | sed "s/%%VERSION%%/${version}/g" | sed "s/%%DIC_TYPE%%/${dic_type}/g" > ${temp}/setup.py
     cd ${temp}
-    python setup.py sdist
-    cp dist/*.tar.gz ${home}/target/
+    python setup.py sdist --formats=gztar,xztar
+    cp dist/*.tar.* ${home}/target/
     cd ${home}
     rm -r ${temp}
 done
