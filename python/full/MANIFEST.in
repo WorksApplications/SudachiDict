@@ -1,0 +1,2 @@
+include README.md LICENSE INFO.json
+exclude sudachidict_*/resources/*
