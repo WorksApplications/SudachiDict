@@ -1,2 +1,2 @@
-include README.md LICENSE INFO.json
+include README.md LICENSE-2.0.txt LEGAL INFO.json
 exclude sudachidict_*/resources/*
