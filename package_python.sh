@@ -12,6 +12,7 @@ do
     temp=target/python/${version}/${dict_type}
     pkg=${temp}/sudachidict_${dict_type}
     mkdir -p ${pkg}
+    mkdir ${pkg}/resources
     touch ${pkg}/__init__.py
     cp python/README.md ${temp}
     cp LEGAL ${temp}
