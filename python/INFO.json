@@ -1,0 +1,4 @@
+{
+    "version": "%%VERSION%%",
+    "edition": "%%DICT_TYPE%%"
+}
