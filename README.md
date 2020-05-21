@@ -11,9 +11,25 @@ A lexicon for Japanese tokenizer
 
 ### Python packages
 
-* [SudachiDict_small-20200330.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_small-20200330.tar.gz)
-* [SudachiDict_core-20200330.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_core-20200330.tar.gz)
-* [SudachiDict_full-20200330.tar.gz](https://object-storage.tyo2.conoha.io/v1/nc_2520839e1f9641b08211a5c85243124a/sudachi/SudachiDict_full-20200330.tar.gz)
+You can install the dictionaries for [WorksApplications/SudachiPy](https://github.com/WorksApplications/SudachiPy), the Python version of Sudachi, as Python packages.
+
+```bash
+$ pip install sudachidict_core
+```
+
+```bash
+$ pip install sudachidict_small
+$ sudachipy link -t small
+```
+
+```bash
+$ pip install sudachidict_full
+$ sudachipy link -t full
+```
+
+* [SudachiDict-small · PyPI](https://pypi.org/project/SudachiDict-small/)
+* [SudachiDict-core · PyPI](https://pypi.org/project/SudachiDict-core/)
+* [SudachiDict-full · PyPI](https://pypi.org/project/SudachiDict-full/)
 
 
 ## Dictionary types
