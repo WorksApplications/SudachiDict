@@ -22,8 +22,5 @@ do
     cat python/INFO.json | sed "s/%%VERSION%%/${version}/g" | sed "s/%%DICT_TYPE%%/${dict_type}/g" > ${temp}/INFO.json
     cd ${temp}
     python setup.py sdist
-    cp dist/*.tar.* ${home}/target/
     cd ${home}
-    rm -r ${temp}
 done
-rm -r target/python/${version}
