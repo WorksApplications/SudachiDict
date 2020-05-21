@@ -3,26 +3,24 @@ set -e
 version=`grep -oP -m 1 '<version>\K([^<]+)' pom.xml`
 
 set +e
-rm -r target/python/${version}
+rm -rf target/python/${version}
 
 set -e
 home=`pwd`
-for dic_type in small core full
+for dict_type in small core full
 do
-    temp=target/python/${version}/${dic_type}
-    pkg=${temp}/sudachidict_${dic_type}
-    mkdir -p ${pkg}/resources/
+    temp=target/python/${version}/${dict_type}
+    pkg=${temp}/sudachidict_${dict_type}
+    mkdir -p ${pkg}
+    mkdir ${pkg}/resources
     touch ${pkg}/__init__.py
-    cp target/system_${dic_type}.dic ${pkg}/resources/system.dic
-    cp README.md ${temp}
+    cp python/README.md ${temp}
     cp LEGAL ${temp}
     cp LICENSE-2.0.txt ${temp}
-    cp MANIFEST.in ${temp}
-    cat setup.py.template | sed "s/%%VERSION%%/${version}/g" | sed "s/%%DIC_TYPE%%/${dic_type}/g" > ${temp}/setup.py
+    cp python/MANIFEST.in ${temp}
+    cp python/setup.py ${temp}
+    cat python/INFO.json | sed "s/%%VERSION%%/${version}/g" | sed "s/%%DICT_TYPE%%/${dict_type}/g" > ${temp}/INFO.json
     cd ${temp}
-    python setup.py sdist --formats=gztar,xztar
-    cp dist/*.tar.* ${home}/target/
+    python setup.py sdist
     cd ${home}
-    rm -r ${temp}
 done
-rm -r target/python/${version}
