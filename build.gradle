@@ -1,0 +1,53 @@
+plugins {
+    id 'java-library'
+}
+
+apply from: 'gradle/version.gradle'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.worksap.nlp:sudachi:0.5.1'
+    testImplementation 'junit:junit:4.13.1', 'org.hamcrest:hamcrest:2.1'
+}
+
+def dictionarySrcDir = 'src/main/text'
+def dictionarySrc = [ small: ['small'], core: ['small', 'core'], full: ['small', 'core', 'notcore']]
+
+task unzipMatrixDef(type: Copy) {
+    def zipFile = file("${dictionarySrcDir}/matrix.def.zip")
+    def outputdir = file('build')
+    from zipTree(zipFile)
+    into outputdir
+}
+
+dictionarySrc.each {
+    def name = it.key
+    def taskName = "build${name.capitalize()}Dict"
+    def sources = it.value.collect { "${dictionarySrcDir}/${it}_lex.csv" }
+    task "${taskName}"(type: JavaExec) {
+        main = "com.worksap.nlp.sudachi.dictionary.DictionaryBuilder"
+        classpath = sourceSets.main.runtimeClasspath
+        args('-o', "build/system_${name}.dic", '-m', 'build/matrix.def', '-d', "${version}", *sources)
+        dependsOn unzipMatrixDef
+    }
+    test.dependsOn taskName
+}
+
+dictionarySrc.each {
+    def name = it.key
+    def taskName = "zip${name.capitalize()}Dict"
+    task "${taskName}"(type: Zip) {
+        archiveBaseName = 'sudachi-dictionary'
+        archiveClassifier = name
+        from "build/system_${name}.dic", 'LEGAL', 'LICENSE-2.0.txt'
+        dependsOn "build${name.capitalize()}Dict"
+    }
+    build.dependsOn taskName
+}
+
+tasks.withType(Test) {
+    systemProperty('buildDirectory', 'build')
+}
