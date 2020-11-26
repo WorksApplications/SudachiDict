@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-version=`grep -oP -m 1 '<version>\K([^<]+)' pom.xml`
+version=`gradle -q showVersion`
 
 set +e
 rm -rf target/python/${version}
