@@ -19,7 +19,7 @@ package com.worksap.nlp.sudachi;
 import java.io.InputStream;
 import java.io.IOException;
 
-class SudachiTest {
+abstract class SudachiTest {
 
     Dictionary dict;
     JapaneseTokenizer tokenizer;
