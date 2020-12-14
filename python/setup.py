@@ -26,8 +26,7 @@ with open("INFO.json") as fh:
 DICT_VERSION = dict_info["version"]
 DICT_EDITION = dict_info["edition"]
 
-ZIP_URL = "https://object-storage.tyo2.conoha.io/v1/"\
-          "nc_2520839e1f9641b08211a5c85243124a/sudachi/"\
+ZIP_URL = "http://sudachi.s3-website-ap-northeast-1.amazonaws.com/sudachidict/"\
           "sudachi-dictionary-{}-{}.zip".format(DICT_VERSION, DICT_EDITION)
 ZIP_NAME = urlparse(ZIP_URL).path.split("/")[-1]
 UNZIP_NAME = "sudachi-dictionary-{}".format(DICT_VERSION)

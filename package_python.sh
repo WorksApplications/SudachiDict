@@ -3,13 +3,13 @@ set -e
 version=`gradle -q showVersion`
 
 set +e
-rm -rf target/python/${version}
+rm -rf build/python/${version}
 
 set -e
 home=`pwd`
 for dict_type in small core full
 do
-    temp=target/python/${version}/${dict_type}
+    temp=build/python/${version}/${dict_type}
     pkg=${temp}/sudachidict_${dict_type}
     mkdir -p ${pkg}
     mkdir ${pkg}/resources
