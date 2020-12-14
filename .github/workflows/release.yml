@@ -33,4 +33,4 @@ jobs:
         aws-region: ap-northeast-1
     - name: Deploy to S3
       run: |
-        aws s3 cp build/distributions s3://sudachi/sudachidict --recursive --exclude "*" --include "*.zip"
+        aws s3 cp build/distributions s3://sudachi/sudachidict --recursive --exclude "*" --include "*.zip" --storage-class INTELLIGENT_TIERING
