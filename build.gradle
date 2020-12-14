@@ -31,6 +31,7 @@ dictionarySrc.each {
         main = "com.worksap.nlp.sudachi.dictionary.DictionaryBuilder"
         classpath = sourceSets.main.runtimeClasspath
         args('-o', "build/system_${name}.dic", '-m', 'build/matrix.def', '-d', "${version}", *sources)
+        maxHeapSize = "4g"
         dependsOn unzipMatrixDef
     }
     test.dependsOn taskName
