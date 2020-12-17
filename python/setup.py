@@ -61,7 +61,7 @@ setuptools.setup(
     url="https://github.com/WorksApplications/SudachiDict",
     license="Apache-2.0",
     author="Works Applications",
-    author_email="hisamoto_s@worksap.co.jp",
+    author_email="sudachi@worksap.co.jp",
     packages=setuptools.find_packages(),
     package_data={"": ["resources/*"]},
     install_requires=[
