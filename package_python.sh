@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-version=`gradle -q showVersion`
+version=`./gradlew -q showVersion`
 
 set +e
 rm -rf build/python/${version}
