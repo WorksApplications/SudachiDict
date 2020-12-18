@@ -27,8 +27,8 @@ jobs:
         sh package_python.sh ${{ steps.tag.outputs.version }}
     - name: Upload to PyPI
       env:
-        TWINE_USERNAME: ${{ secret.PYPI_USERNAME }}
-        TWINE_PASSWORD: ${{ secret.PYPI_PASSWORD }}
+        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
         TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/
       run: |
         cd build/python/${{ steps.tag.outputs.version }}/core && python -m twine upload dist/*
