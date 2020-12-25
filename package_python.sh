@@ -2,9 +2,15 @@
 set -e
 
 if [ -z "$1" ]; then
-    version=`./gradlew -q showVersion`
+    dict_version=`./gradlew -q showVersion`
+    version=${dict_version}
 else
-    version=$1
+    dict_version=$1
+    if [ -z "$2" ]; then
+        version=${dict_version}
+    else
+        version=$2
+    fi
 fi
 
 set +e
@@ -24,7 +30,7 @@ do
     cp LICENSE-2.0.txt ${temp}
     cp python/MANIFEST.in ${temp}
     cp python/setup.py ${temp}
-    cat python/INFO.json | sed "s/%%VERSION%%/${version}/g" | sed "s/%%DICT_TYPE%%/${dict_type}/g" > ${temp}/INFO.json
+    cat python/INFO.json | sed "s/%%VERSION%%/${version}/g" | sed "s/%%DICT_VERSION%%/${dict_version}/g" | sed "s/%%DICT_TYPE%%/${dict_type}/g" > ${temp}/INFO.json
     cd ${temp}
     python setup.py sdist
     cd ${home}

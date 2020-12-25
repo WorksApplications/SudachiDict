@@ -1,4 +1,5 @@
 {
     "version": "%%VERSION%%",
+    "dict_version": "%%DICT_VERSION%%",
     "edition": "%%DICT_TYPE%%"
 }
