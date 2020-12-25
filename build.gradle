@@ -42,8 +42,10 @@ dictionarySrc.each {
     def taskName = "zip${name.capitalize()}Dict"
     task "${taskName}"(type: Zip) {
         archiveBaseName = 'sudachi-dictionary'
+        archiveVersion = version
         archiveClassifier = name
         from "build/system_${name}.dic", 'LEGAL', 'LICENSE-2.0.txt'
+        into "sudachi-dictionary-${version}"
         dependsOn "build${name.capitalize()}Dict"
     }
     build.dependsOn taskName
