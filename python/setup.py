@@ -23,7 +23,8 @@ from zipfile import ZipFile
 
 with open("INFO.json") as fh:
     dict_info = json.load(fh)
-DICT_VERSION = dict_info["version"]
+PKG_VERSION = dict_info["version"]
+DICT_VERSION = dict_info["dict_version"]
 DICT_EDITION = dict_info["edition"]
 
 ZIP_URL = "http://sudachi.s3-website-ap-northeast-1.amazonaws.com/sudachidict/"\
@@ -54,7 +55,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="SudachiDict-{}".format(DICT_EDITION),
-    version=DICT_VERSION,
+    version=PKG_VERSION,
     description="Sudachi Dictionary for SudachiPy - {} Edition".format(DICT_EDITION.title()),
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -65,6 +66,6 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     package_data={"": ["resources/*"]},
     install_requires=[
-        "SudachiPy~=0.4.9"
+        "SudachiPy~=0.5.0"
     ],
 )
