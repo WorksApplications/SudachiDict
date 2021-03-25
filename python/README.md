@@ -16,16 +16,36 @@ The version (e.g., `20200330`) and the edition (`small`, `core`, or `full`) is s
 
 ## Commands to download and set the dictionaries
 
+In SudachiPy v0.5.2 and later, you can specify a dictionary directly from a command line or program.
+
+**WARNING: `sudachipy link` is no longer available in SudachiPy v0.5.2 and later.**
+
+Please see the following links for more details on the dictionary option.
+
+* english
+    * [https://github.com/WorksApplications/SudachiPy#dictionary-edition](https://github.com/WorksApplications/SudachiPy#dictionary-edition)
+* japanese
+    * [https://github.com/WorksApplications/SudachiPy/blob/develop/docs/tutorial.md#辞書の種類](https://github.com/WorksApplications/SudachiPy/blob/develop/docs/tutorial.md#%E8%BE%9E%E6%9B%B8%E3%81%AE%E7%A8%AE%E9%A1%9E)
+
+### Install
+
 ```bash
 $ pip install sudachidict_core
 ```
 
 ```bash
 $ pip install sudachidict_small
-$ sudachipy link -t small
 ```
 
 ```bash
 $ pip install sudachidict_full
-$ sudachipy link -t full
 ```
+
+### Dictionary option in SudachiPy before v0.5.2
+
+In you are using SudachiPy before v0.5.2, please visit the old SudachiPy documentation.
+
+* english
+    * [https://github.com/WorksApplications/SudachiPy/tree/v0.5.1#dictionary-edition](https://github.com/WorksApplications/SudachiPy/tree/v0.5.1#dictionary-edition)
+* japanese
+    * [https://github.com/WorksApplications/SudachiPy/blob/v0.5.1/docs/tutorial.md#%辞書の種類](https://github.com/WorksApplications/SudachiPy/blob/v0.5.1/docs/tutorial.md#%E8%BE%9E%E6%9B%B8%E3%81%AE%E7%A8%AE%E9%A1%9E)
