@@ -11,18 +11,29 @@ Click [here](http://sudachi.s3-website-ap-northeast-1.amazonaws.com/sudachidict/
 
 You can install the dictionaries for [WorksApplications/SudachiPy](https://github.com/WorksApplications/SudachiPy), the Python version of Sudachi, as Python packages.
 
+In SudachiPy v0.5.2 and later, you can specify a dictionary directly from a command line or program.
+
+**WARNING: `sudachipy link` is no longer available in SudachiPy v0.5.2 and later.**
+
+please see the following links for more details on the dictionary option.
+
+* english
+    * [https://github.com/WorksApplications/SudachiPy#dictionary-edition](https://github.com/WorksApplications/SudachiPy#dictionary-edition)
+* japanese
+    * [https://github.com/WorksApplications/SudachiPy/blob/develop/docs/tutorial.md#辞書の種類](https://github.com/WorksApplications/SudachiPy/blob/develop/docs/tutorial.md#%E8%BE%9E%E6%9B%B8%E3%81%AE%E7%A8%AE%E9%A1%9E)
+
+#### Install
+
 ```bash
 $ pip install sudachidict_core
 ```
 
 ```bash
 $ pip install sudachidict_small
-$ sudachipy link -t small
 ```
 
 ```bash
 $ pip install sudachidict_full
-$ sudachipy link -t full
 ```
 
 * [SudachiDict-small · PyPI](https://pypi.org/project/SudachiDict-small/)
