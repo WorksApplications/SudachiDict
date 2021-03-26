@@ -43,7 +43,7 @@ $ pip install sudachidict_full
 
 ### Dictionary option in SudachiPy before v0.5.2
 
-In you are using SudachiPy before v0.5.2, please visit the old SudachiPy documentation.
+In case you are using SudachiPy before v0.5.2, please visit the old SudachiPy documentation.
 
 * english
     * [https://github.com/WorksApplications/SudachiPy/tree/v0.5.1#dictionary-edition](https://github.com/WorksApplications/SudachiPy/tree/v0.5.1#dictionary-edition)
