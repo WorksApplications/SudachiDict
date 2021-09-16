@@ -50,7 +50,7 @@ if not os.path.exists(RESOURCE_DIR):
     os.remove(ZIP_NAME)
     logger.warning("... downloaded and placed the dictionary at `{}`.".format(RESOURCE_DIR))
 
-with open("README.md", "r") as fh:
+with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
