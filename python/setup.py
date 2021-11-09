@@ -66,6 +66,6 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     package_data={"": ["resources/*"]},
     install_requires=[
-        "SudachiPy>=0.5, SudachiPy<0.7"
+        "SudachiPy>=0.5,<0.7"
     ],
 )
