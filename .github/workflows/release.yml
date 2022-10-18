@@ -1,9 +1,9 @@
 name: Release packages
 
-on:
-  push:
-    tags:
-      - 'v*'
+# on:
+#   push:
+#     tags:
+#       - 'v*'
 
 jobs:
   build:
