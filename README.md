@@ -64,7 +64,7 @@ Core dictionary requires small and core files, Full requires all three files.
 ```text
 SudachiDict by Works Applications Co., Ltd. is licensed under the [Apache License, Version2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 
-   Copyright (c) 2017 Works Applications Co., Ltd.
+   Copyright (c) 2017-2023 Works Applications Co., Ltd.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
