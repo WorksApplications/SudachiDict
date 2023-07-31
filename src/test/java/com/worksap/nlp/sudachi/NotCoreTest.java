@@ -29,7 +29,7 @@ public class NotCoreTest extends SudachiTest {
 
     @Before
     public void setUp() throws IOException {
-        getTokenizer("/sudachi_fulldict.json");
+        getTokenizer("system_full.dic");
     }
 
     @Test

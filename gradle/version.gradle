@@ -12,7 +12,7 @@ version = describedCommit +
     (describedCommit.matches(".*-[0-9]+-g[0-9a-f]{7}") ? "-SNAPSHOT" : "") +
     (git.status().isClean() ? "" : "+dirty")
 
-task showVersion {
+tasks.register("showVersion") {
     doLast {
         println version
     }
