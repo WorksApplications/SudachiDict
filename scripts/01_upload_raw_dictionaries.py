@@ -3,6 +3,7 @@ from pathlib import Path
 from classopt import classopt
 
 from aws_common import CredentialCache
+from fs_common import validate_file
 from raw_listing import generate_raw_listing
 
 
@@ -15,12 +16,6 @@ class Opts:
     aws_region: str = "ap-northeast-1"
     s3_bucket: str = "sudachi"
     s3_prefix: str = "sudachidict-raw"
-
-
-def validate_file(file: Path) -> Path:
-    if file.exists():
-        return file
-    raise FileNotFoundError(f"required file {file} was not present")
 
 
 def validate_files(args: Opts) -> list[Path]:

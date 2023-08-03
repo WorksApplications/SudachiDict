@@ -3,14 +3,29 @@ buildscript {
     dependencies.classpath 'org.ajoberstar:grgit:1.7.2'
 }
 
-ext {
-    git = org.ajoberstar.grgit.Grgit.open(file('.'))
-    describedCommit = git.describe().toString().trim().replaceFirst('\\Av', '')
+def commitFromGit() {
+    def git = org.ajoberstar.grgit.Grgit.open(file('.'))
+    def describedCommit = git.describe().toString().trim().replaceFirst('\\Av', '')
+    String suffix1 = ""
+    if (describedCommit.matches(".*-[0-9]+-g[0-9a-f]{7}")) {
+        suffix1 = "-SNAPSHOT"
+    }
+    String suffix2 = ""
+    if (!git.status().isClean()) {
+        suffix2 = "+dirty"
+    }
+    return describedCommit + suffix1 + suffix2
 }
 
-version = describedCommit +
-    (describedCommit.matches(".*-[0-9]+-g[0-9a-f]{7}") ? "-SNAPSHOT" : "") +
-    (git.status().isClean() ? "" : "+dirty")
+def versionString() {
+    if (property("dict.release") == "true") {
+        return property("dict.version")
+    } else {
+        return commitFromGit()
+    }
+}
+
+version = versionString()
 
 tasks.register("showVersion") {
     doLast {
