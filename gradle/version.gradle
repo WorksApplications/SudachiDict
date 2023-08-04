@@ -3,12 +3,14 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.ajoberstar:grgit:1.7.2'
+        classpath 'org.ajoberstar.grgit:grgit-core:5.2.0'
     }
 }
 
 String commitFromGit() {
-    def git = org.ajoberstar.grgit.Grgit.open(file('.'))
+    def git = org.ajoberstar.grgit.Grgit.open {
+        dir = file('.')
+    }
     def describedCommit = git.describe().toString().trim().replaceFirst('\\Av', '')
     String suffix1 = ""
     if (describedCommit.matches(".*-[0-9]+-g[0-9a-f]{7}")) {
