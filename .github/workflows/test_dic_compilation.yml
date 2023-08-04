@@ -12,6 +12,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 11
+          distribution: corretto
           cache: gradle
       - name: Check dictionary compilation
         run:
