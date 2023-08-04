@@ -39,18 +39,25 @@ do
     temp="$PACKAGES_ROOT/$VERSION/$dict_type"
     pkg="${temp}/sudachidict_${dict_type}"
     mkdir -p ${pkg}
-    mkdir ${pkg}/resources
-    touch ${pkg}/__init__.py
-    cp python/README.md ${temp}
+    mkdir "${pkg}/resources"
+    touch "${pkg}/__init__.py"
+    cp python/README.md "${temp}"
     cp LEGAL ${temp}
-    cp LICENSE-2.0.txt ${temp}
-    cp python/MANIFEST.in ${temp}
-    cp python/setup.py ${temp}
+    cp LICENSE-2.0.txt "${temp}"
+    cp python/MANIFEST.in "${temp}"
+    cp python/setup.py "${temp}"
     cat python/INFO.json | sed "s/%%VERSION%%/${VERSION}/g" | sed "s/%%DICT_VERSION%%/${DICT_VERSION}/g" | sed "s/%%DICT_TYPE%%/${dict_type}/g" > ${temp}/INFO.json
     cp "$BINARY_DIC_ROOT/system_${dict_type}.dic" "${temp}/sudachidict_${dict_type}/resources/system.dic"
-    pip wheel \
-      --wheel-dir "$WHEELS_DIR" \
-      --no-deps --no-build-isolation \
+    # build a wheel with binary dictionaries included
+    python3 -m build \
+      --outdir "$WHEELS_DIR" \
+      --no-isolation --wheel \
       "${temp}"
-    # python setup.py bdist_wheel sdist
+    # build sdists with binary dictionary not included
+    rm -rf "${pkg}/resources"
+    python3 -m build \
+          --outdir "$WHEELS_DIR" \
+          --no-isolation --sdist \
+          "${temp}"
+    # python setup.py sdist
 done
