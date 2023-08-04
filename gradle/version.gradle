@@ -1,9 +1,13 @@
 buildscript {
-    repositories.mavenCentral()
-    dependencies.classpath 'org.ajoberstar:grgit:1.7.2'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.ajoberstar:grgit:1.7.2'
+    }
 }
 
-def commitFromGit() {
+String commitFromGit() {
     def git = org.ajoberstar.grgit.Grgit.open(file('.'))
     def describedCommit = git.describe().toString().trim().replaceFirst('\\Av', '')
     String suffix1 = ""
@@ -17,7 +21,7 @@ def commitFromGit() {
     return describedCommit + suffix1 + suffix2
 }
 
-def versionString() {
+String versionString() {
     if (property("dict.release") == "true") {
         return property("dict.version")
     } else {

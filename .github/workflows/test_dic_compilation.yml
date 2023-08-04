@@ -16,4 +16,4 @@ jobs:
           cache: gradle
       - name: Check dictionary compilation
         run:
-          ./gradlew --info build
+          ./gradlew --stacktrace --info build
