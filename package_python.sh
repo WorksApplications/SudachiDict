@@ -29,8 +29,8 @@ fi
 
 set +e
 rm -rf "$PACKAGES_ROOT/$VERSION"
-WHEELS_DIR="$PACKAGES_ROOT/wheels"
-mkdir -p "$WHEELS_DIR"
+mkdir -p "$PACKAGES_ROOT/wheels"
+mkdir -p "$PACKAGES_ROOT/sdist"
 
 set -e
 home=$SCRIPT_DIR
@@ -39,6 +39,7 @@ do
     temp="$PACKAGES_ROOT/$VERSION/$dict_type"
     pkg="${temp}/sudachidict_${dict_type}"
     mkdir -p ${pkg}
+    # prepare package directory
     mkdir "${pkg}/resources"
     touch "${pkg}/__init__.py"
     cp python/README.md "${temp}"
@@ -50,14 +51,13 @@ do
     cp "$BINARY_DIC_ROOT/system_${dict_type}.dic" "${temp}/sudachidict_${dict_type}/resources/system.dic"
     # build a wheel with binary dictionaries included
     python3 -m build \
-      --outdir "$WHEELS_DIR" \
+      --outdir "$PACKAGES_ROOT/wheels" \
       --no-isolation --wheel \
       "${temp}"
-    # build sdists with binary dictionary not included
+    # build sdist with binary dictionary not included
     rm -rf "${pkg}/resources"
     python3 -m build \
-          --outdir "$WHEELS_DIR" \
-          --no-isolation --sdist \
-          "${temp}"
-    # python setup.py sdist
+      --outdir "$PACKAGES_ROOT/sdist" \
+      --no-isolation --sdist \
+      "${temp}"
 done

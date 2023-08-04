@@ -19,7 +19,7 @@ def dictionarySrc = [ small: ['small'], core: ['small', 'core'], 'full': ['small
 def downloadCacheDir = new File(project.buildDir, "cache")
 
 def matrixDefDownload = tasks.register("downloadMatrixDef", Download) {
-    src "http://sudachi.s3-website-ap-northeast-1.amazonaws.com/sudachidict-raw/matrix.def.zip"
+    src "https://d2ej7fkh96fzlu.cloudfront.net/sudachidict-raw/matrix.def.zip"
     dest new File(downloadCacheDir, "matrix.def.zip")
     overwrite false
 }
@@ -41,7 +41,7 @@ rawDictSrcs.forEach { name ->
 
     def downloadTask = tasks.register("download${capitalName}Zip", Download) {
         def filename = "${name}_lex.zip"
-        src "http://sudachi.s3-website-ap-northeast-1.amazonaws.com/sudachidict-raw/${version}/$filename"
+        src "https://d2ej7fkh96fzlu.cloudfront.net/sudachidict-raw/${version}/$filename"
         dest new File(downloadCacheDir, "${version}/$name/$filename")
         overwrite false
         inputs.property("version", version)
