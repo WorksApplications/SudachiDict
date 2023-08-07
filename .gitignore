@@ -60,6 +60,10 @@ local.properties
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
+# IntelliJ
+
+.idea/
+
 ### Java ###
 # Compiled class file
 *.class
@@ -178,3 +182,6 @@ gradle-app.setting
 .gradletasknamecache
 
 src/main/text/*_lex.csv
+
+# Python Virtual Environments for development
+.venv*/

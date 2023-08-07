@@ -16,24 +16,19 @@
 
 package com.worksap.nlp.sudachi;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 abstract class SudachiTest {
 
     Dictionary dict;
     JapaneseTokenizer tokenizer;
 
-    void getTokenizer(String settingsFile) throws IOException {
-        String path = System.getProperty("buildDirectory");
-        String settings = readAllResource(settingsFile);
-        dict = new DictionaryFactory().create(path, settings);
+    void getTokenizer(String dictName) throws IOException {
+        Path basicPath = Paths.get(System.getProperty("buildDirectory"));
+        Config cfg = Config.defaultConfig().systemDictionary(basicPath.resolve(dictName));
+        dict = new DictionaryFactory().create(cfg);
         tokenizer = (JapaneseTokenizer)dict.create();
-    }
-
-    static String readAllResource(String file) throws IOException {
-        try (InputStream src = SudachiTest.class.getResourceAsStream(file)) {
-            return JapaneseDictionary.readAll(src);
-        }
     }
 }

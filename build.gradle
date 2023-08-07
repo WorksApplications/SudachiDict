@@ -1,5 +1,6 @@
 plugins {
     id 'java-library'
+    id "de.undercouch.download" version "5.4.0"
 }
 
 apply from: 'gradle/version.gradle'
@@ -9,48 +10,104 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.worksap.nlp:sudachi:0.5.1'
+    implementation 'com.worksap.nlp:sudachi:0.7.2'
     testImplementation 'junit:junit:4.13.1', 'org.hamcrest:hamcrest:2.1'
 }
 
-def dictionarySrcDir = 'src/main/text'
-def dictionarySrc = [ small: ['small'], core: ['small', 'core'], full: ['small', 'core', 'notcore']]
+def dictionarySrc = [ small: ['small'], core: ['small', 'core'], 'full': ['small', 'core', 'notcore']]
 
-task unzipMatrixDef(type: Copy) {
-    def zipFile = file("${dictionarySrcDir}/matrix.def.zip")
-    def outputdir = file('build')
+def downloadCacheDir = new File(project.buildDir, "cache")
+
+def matrixDefDownload = tasks.register("downloadMatrixDef", Download) {
+    src "https://d2ej7fkh96fzlu.cloudfront.net/sudachidict-raw/matrix.def.zip"
+    dest new File(downloadCacheDir, "matrix.def.zip")
+    overwrite false
+}
+
+def unzipMatrixDef = tasks.register('unzipMatrixDef', Copy) {
+    def zipFile = matrixDefDownload.get().outputs.files.singleFile
+    def outputDir = new File(project.buildDir, "dict/raw/matrix")
     from zipTree(zipFile)
-    into outputdir
+    into outputDir
+    dependsOn(matrixDefDownload)
+    inputs.file(zipFile)
 }
 
-dictionarySrc.each {
-    def name = it.key
-    def taskName = "build${name.capitalize()}Dict"
-    def sources = it.value.collect { "${dictionarySrcDir}/${it}_lex.csv" }
-    task "${taskName}"(type: JavaExec) {
-        main = "com.worksap.nlp.sudachi.dictionary.DictionaryBuilder"
-        classpath = sourceSets.main.runtimeClasspath
-        args('-o', "build/system_${name}.dic", '-m', 'build/matrix.def', '-d', "${version}", *sources)
-        maxHeapSize = "4g"
-        dependsOn unzipMatrixDef
+def rawDictSrcs = dictionarySrc.collectMany { it.value }.toSet()
+
+rawDictSrcs.forEach { name ->
+    final String capitalName = name.capitalize()
+    final String version = project.property("dict.version").toString()
+
+    def downloadTask = tasks.register("download${capitalName}Zip", Download) {
+        def filename = "${name}_lex.zip"
+        src "https://d2ej7fkh96fzlu.cloudfront.net/sudachidict-raw/${version}/$filename"
+        dest new File(downloadCacheDir, "${version}/$name/$filename")
+        overwrite false
+        inputs.property("version", version)
     }
-    test.dependsOn taskName
+
+    tasks.register("unzip${capitalName}Dict", Copy) {
+        def zipFile = downloadTask.get().outputs.files.singleFile
+        def outputDir = new File(project.buildDir, "dict/raw/$version/$name")
+        from zipTree(zipFile)
+        into outputDir
+        dependsOn(downloadTask)
+    }
 }
 
-dictionarySrc.each {
+def builtDictDir = new File(project.buildDir, "dict/bin/${property("dict.version")}")
+
+dictionarySrc.entrySet().forEach { e ->
+    def capitalName = e.key.capitalize()
+    def version = project.property("dict.version").toString()
+    def name = e.key
+
+    def compileTask = tasks.register("compile${capitalName}Dict", JavaExec) { t ->
+        def sources = e.value.collect { source ->
+            def srcName = source.toString().capitalize()
+            t.dependsOn(tasks.named("unzip${srcName}Dict"))
+            def dictCsv = new File(project.buildDir, "dict/raw/$version/$source/${source}_lex.csv")
+            t.inputs.file(dictCsv)
+            dictCsv
+        }
+
+        def outputFile = new File(builtDictDir, "system_${name}.dic")
+        def matrixFile = new File(unzipMatrixDef.get().outputs.files.singleFile, "matrix.def")
+
+        t.mainClass.set("com.worksap.nlp.sudachi.dictionary.DictionaryBuilder")
+        t.classpath = sourceSets.main.runtimeClasspath
+        t.args('-o', outputFile.toString(), '-m', matrixFile, '-d', "${version}", *sources)
+        t.maxHeapSize = "4g"
+        t.dependsOn unzipMatrixDef
+        t.systemProperty('file.encoding', 'UTF-8')
+        t.inputs.file(matrixFile)
+        t.outputs.file(outputFile)
+    }
+    test.dependsOn(compileTask)
+}
+
+dictionarySrc.entrySet().forEach {
     def name = it.key
-    def taskName = "zip${name.capitalize()}Dict"
-    task "${taskName}"(type: Zip) {
+    def task = tasks.register("zip${name.capitalize()}Dict", Zip) {
+        def compileTask = tasks.getByName("compile${name.capitalize()}Dict")
+        def compiledDict = compileTask.outputs.files.singleFile
+
         archiveBaseName = 'sudachi-dictionary'
-        archiveVersion = version
+        archiveVersion.set(version)
         archiveClassifier = name
-        from "build/system_${name}.dic", 'LEGAL', 'LICENSE-2.0.txt'
+        from compiledDict, 'LEGAL', 'LICENSE-2.0.txt'
         into "sudachi-dictionary-${version}"
-        dependsOn "build${name.capitalize()}Dict"
+        dependsOn(compileTask)
     }
-    build.dependsOn taskName
+    tasks.named('build').configure { dependsOn(task) }
 }
 
-tasks.withType(Test) {
-    systemProperty('buildDirectory', 'build')
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test).configureEach {
+    systemProperty('buildDirectory', builtDictDir.toString())
+    systemProperty('file.encoding', 'UTF-8')
 }

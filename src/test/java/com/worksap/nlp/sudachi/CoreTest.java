@@ -32,7 +32,7 @@ public class CoreTest extends SudachiTest {
 
     @Before
     public void setUp() throws IOException {
-        getTokenizer("/sudachi.json");
+        getTokenizer("system_core.dic");
     }
 
     @Test
