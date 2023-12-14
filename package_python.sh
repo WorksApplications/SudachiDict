@@ -21,7 +21,7 @@ echo "VERSION=$VERSION, DICT_VERSION=$DICT_VERSION"
 PACKAGES_ROOT="$SCRIPT_DIR/build/python"
 BINARY_DIC_ROOT="$SCRIPT_DIR/build/dict/bin/$DICT_VERSION"
 
-if [ ! -d "$BINARY_DIC_ROOT" ]; then
+if [ -z "$NO_WHEELS" ] && [ ! -d "$BINARY_DIC_ROOT" ]; then
   echo "binary dictionaries are not present in $BINARY_DIC_ROOT"
   echo "run ./gradlew build to compile binary dictionaries"
   exit 1
@@ -29,7 +29,9 @@ fi
 
 set +e
 rm -rf "$PACKAGES_ROOT/$VERSION"
-mkdir -p "$PACKAGES_ROOT/wheels"
+if [ -z "$NO_WHEELS" ]; then
+  mkdir -p "$PACKAGES_ROOT/wheels"
+fi
 mkdir -p "$PACKAGES_ROOT/sdist"
 
 set -e
@@ -48,12 +50,16 @@ do
     cp python/MANIFEST.in "${temp}"
     cp python/setup.py "${temp}"
     cat python/INFO.json | sed "s/%%VERSION%%/${VERSION}/g" | sed "s/%%DICT_VERSION%%/${DICT_VERSION}/g" | sed "s/%%DICT_TYPE%%/${dict_type}/g" > ${temp}/INFO.json
-    cp "$BINARY_DIC_ROOT/system_${dict_type}.dic" "${temp}/sudachidict_${dict_type}/resources/system.dic"
-    # build a wheel with binary dictionaries included
-    python3 -m build \
-      --outdir "$PACKAGES_ROOT/wheels" \
-      --no-isolation --wheel \
-      "${temp}"
+
+    if [ -z "$NO_WHEELS" ]; then
+      # build a wheel with binary dictionaries included
+      cp "$BINARY_DIC_ROOT/system_${dict_type}.dic" "${pkg}/resources/system.dic"
+      python3 -m build \
+        --outdir "$PACKAGES_ROOT/wheels" \
+        --no-isolation --wheel \
+        "${temp}"
+    fi
+
     # build sdist with binary dictionary not included
     rm -rf "${pkg}/resources"
     python3 -m build \

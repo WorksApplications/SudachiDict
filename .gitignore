@@ -185,3 +185,4 @@ src/main/text/*_lex.csv
 
 # Python Virtual Environments for development
 .venv*/
+__pycache__/
