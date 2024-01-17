@@ -35,6 +35,18 @@ Arguments (positional):
 4. MFA arn for the user
 5. (optional) version string for Python package
 
+## Setup twine
+
+You need to setup twine login information.
+SudachiDict_core is a critial PyPI package and you have to use token-based auth for releases.
+Prepare the following login information:
+
+```
+ export TWINE_USERNAME=__token__
+ export TWINE_PASSWORD=pypi-starting-login-string
+ export TWINE_REPOSITORY_URL=https://upload.pypi.org/legacy/
+```
+
 ## Upload Packages to PyPI
 
 Packages are built into <root>/build/python directory.
