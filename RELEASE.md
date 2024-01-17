@@ -39,7 +39,8 @@ Arguments (positional):
 
 You need to setup twine login information.
 SudachiDict_core is a critial PyPI package and you have to use token-based auth for releases.
-Prepare the following login information:
+Prepare the following login information.
+Note that `export` commands here start with spaces and they won't be saved to bash history because of it.
 
 ```
  export TWINE_USERNAME=__token__
