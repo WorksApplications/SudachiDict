@@ -34,3 +34,8 @@ Arguments (positional):
 3. Configured profile for AWS for Sudachi
 4. MFA arn for the user
 5. (optional) version string for Python package
+
+## Upload Packages to PyPI
+
+Packages are built into <root>/build/python directory.
+We upload all files from `sdist` directory and `wheels` which are less than 100MB.
