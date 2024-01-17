@@ -25,7 +25,7 @@ pip install -r scripts/requirements.txt
 ## Use basic release script
 
 ```bash
-bash do_release.sh /path/to/csv/dics DIC_VERSION aws-profile arn:aws:iam::0123456789:mfa/iam_user
+bash do_release.sh DIC_VERSION /path/to/csv/dics aws-profile arn:aws:iam::0123456789:mfa/iam_user
 ```
 
 Arguments (positional):
