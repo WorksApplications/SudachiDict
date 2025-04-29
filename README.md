@@ -81,5 +81,5 @@ SudachiDict by Works Applications Co., Ltd. is licensed under the [Apache Licens
 This project includes UniDic and a part of NEologd.
 ```
 
-- <http://unidic.ninjal.ac.jp/>
+- <https://clrd.ninjal.ac.jp/unidic/>
 - <https://github.com/neologd/mecab-ipadic-neologd>
