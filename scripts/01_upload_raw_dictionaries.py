@@ -3,6 +3,7 @@ from pathlib import Path
 from classopt import classopt, config
 
 from aws_common import CredentialCache
+from dictionary_format_version import DictionaryFormatVersion
 from fs_common import validate_file
 from raw_listing import generate_raw_listing
 
@@ -16,6 +17,7 @@ class Opts:
     aws_region: str = "ap-northeast-1"
     s3_bucket: str = "sudachi"
     s3_prefix: str = "sudachidict-raw"
+    dictionary_format: DictionaryFormatVersion = DictionaryFormatVersion.V0
     dryrun: bool = config(action="store_true")
 
 
@@ -33,8 +35,9 @@ def make_client(args: Opts):
 
 def upload_files(client, args: Opts, files: list[Path]):
     bucket = client.Bucket(args.s3_bucket)
+    s3_prefix = f"{args.s3_prefix}{args.dictionary_format.s3_prefix()}"
     for file in files:
-        s3_key = f"{args.s3_prefix}/{args.version}/{file.name}"
+        s3_key = f"{s3_prefix}/{args.version}/{file.name}"
         if args.dryrun:
             print("put", file, "to", s3_key)
             continue
@@ -49,7 +52,8 @@ def upload_files(client, args: Opts, files: list[Path]):
 
 
 def regenerate_index(s3, args: Opts):
-    listing = generate_raw_listing(s3, args.s3_bucket, args.s3_prefix)
+    s3_prefix = f"{args.s3_prefix}{args.dictionary_format.s3_prefix()}"
+    listing = generate_raw_listing(s3, args.s3_bucket, s3_prefix)
     bucket = s3.Bucket(args.s3_bucket)
 
     if args.dryrun:

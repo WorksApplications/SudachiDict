@@ -1,8 +1,10 @@
 import re
 from pathlib import Path
 
-from aws_common import CredentialCache
 from classopt import classopt, config
+
+from aws_common import CredentialCache
+from dictionary_format_version import DictionaryFormatVersion
 
 
 @classopt(default_long=True)
@@ -14,6 +16,7 @@ class Opts:
     aws_region: str = "ap-northeast-1"
     s3_bucket: str = "sudachi"
     s3_prefix: str = "sudachidict"
+    dictionary_format: DictionaryFormatVersion = DictionaryFormatVersion.V0
     no_latest: bool = config(action="store_true")
     dryrun: bool = config(action="store_true")
 
@@ -44,8 +47,9 @@ def make_client(args: Opts):
 
 def upload_files(s3, args: Opts, files: list[Path]):
     bucket = s3.Bucket(args.s3_bucket)
+    s3_prefix = f"{args.s3_prefix}{args.dictionary_format.s3_prefix()}"
     for file in files:
-        s3_key = f"{args.s3_prefix}/{file.name}"
+        s3_key = f"{s3_prefix}/{file.name}"
         if args.dryrun:
             print("put", file, "to", s3_key)
             continue
@@ -60,7 +64,7 @@ def upload_files(s3, args: Opts, files: list[Path]):
 
         if not args.no_latest:
             latest_name = make_latest_name(file.name)
-            latest_s3_key = f"{args.s3_prefix}/{latest_name}"
+            latest_s3_key = f"{s3_prefix}/{latest_name}"
             bucket.put_object(Body=b"", Key=latest_s3_key, WebsiteRedirectLocation="/" + s3_key)
             print("set", latest_s3_key, "redirect to", s3_key)
 
