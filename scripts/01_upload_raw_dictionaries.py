@@ -26,7 +26,7 @@ def validate_files(args: Opts) -> list[Path]:
     ]
 
 
-def make_client(args):
+def make_client(args: Opts):
     return CredentialCache(args.aws_profile, args.aws_mfa).session.resource("s3", region_name=args.aws_region)
 
 
@@ -40,7 +40,7 @@ def upload_files(client, args: Opts, files: list[Path]):
                 Key=s3_key,
                 ContentType='application/zip'
             )
-            print("put", file, "size", resp.content_length, "to", s3_key, "etag", resp.e_tag)
+        print("put", file, "size", resp.content_length, "to", s3_key, "etag", resp.e_tag)
 
 
 def regenerate_index(s3, args: Opts):
