@@ -53,7 +53,7 @@ def upload_files(client, args: Opts, files: list[Path]):
 
 def regenerate_index(s3, args: Opts):
     s3_prefix = f"{args.s3_prefix}{args.dictionary_format.s3_prefix()}"
-    listing = generate_raw_listing(s3, args.s3_bucket, s3_prefix)
+    listing = generate_raw_listing(s3, args.s3_bucket, s3_prefix, args.dictionary_format)
     bucket = s3.Bucket(args.s3_bucket)
 
     if args.dryrun:
