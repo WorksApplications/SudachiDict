@@ -20,7 +20,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-abstract class SudachiTest {
+import org.junit.Ignore;
+
+@Ignore
+public abstract class SudachiTest {
 
     Dictionary dict;
     JapaneseTokenizer tokenizer;
@@ -29,6 +32,6 @@ abstract class SudachiTest {
         Path basicPath = Paths.get(System.getProperty("buildDirectory"));
         Config cfg = Config.defaultConfig().systemDictionary(basicPath.resolve(dictName));
         dict = new DictionaryFactory().create(cfg);
-        tokenizer = (JapaneseTokenizer)dict.create();
+        tokenizer = (JapaneseTokenizer) dict.create();
     }
 }
