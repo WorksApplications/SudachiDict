@@ -183,7 +183,7 @@ def render_doc(table=""):
     return iobj.getvalue()
 
 
-def generate_raw_listing(s3, bucket="sudachi", prefix="sudachdic-raw") -> str:
+def generate_raw_listing(s3, bucket="sudachi", prefix="sudachidict-raw") -> str:
     files = gather_files(s3, bucket, prefix)
     return render_doc(render_table(files))
 
@@ -194,7 +194,7 @@ def _main():
 
     s3 = CredentialCache(sys.argv[1], sys.argv[2]).session.resource("s3")
     table = generate_raw_listing(s3)
-    print(render_doc(table))
+    print(table)
 
 
 if __name__ == '__main__':
