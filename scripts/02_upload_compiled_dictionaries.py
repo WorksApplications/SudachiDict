@@ -15,6 +15,7 @@ class Opts:
     s3_bucket: str = "sudachi"
     s3_prefix: str = "sudachidict"
     no_latest: bool = config(action="store_true")
+    dryrun: bool = config(action="store_true")
 
 
 BINARY_DIC_PATTERN = re.compile("^sudachi-dictionary-.*-(small|core|full).zip$")
@@ -45,6 +46,10 @@ def upload_files(s3, args: Opts, files: list[Path]):
     bucket = s3.Bucket(args.s3_bucket)
     for file in files:
         s3_key = f"{args.s3_prefix}/{file.name}"
+        if args.dryrun:
+            print("put", file, "to", s3_key)
+            continue
+
         with file.open("rb") as f:
             resp = bucket.put_object(
                 Body=f,
