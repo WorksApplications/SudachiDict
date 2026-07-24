@@ -101,7 +101,7 @@ dictionarySrc.entrySet().forEach { e ->
         t.maxHeapSize = "5g" // may need to increase this for full dictionary
         t.dependsOn(unzipMatrixDef, posCsvDownload)
         t.systemProperty('file.encoding', 'UTF-8')
-        t.inputs.file(matrixFile)
+        t.inputs.files(matrixFile, posFile, *sources)
         t.outputs.file(outputFile)
     }
     test.dependsOn(compileTask)
