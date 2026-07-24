@@ -93,7 +93,9 @@ def gather_files(s3, bucket, prefix):
         if not key.endswith("_lex.zip"):
             continue
         key_wo_prefix = key[len(prefix) + 1:]
-        version, file = key_wo_prefix.split("/", 2)
+        version, file = key_wo_prefix.rsplit("/", 1)
+        if version.startswith("v1/"):
+            continue
         by_version.setdefault(version, dict())[file] = key_wo_prefix
 
     return by_version
