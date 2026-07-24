@@ -62,7 +62,7 @@ def regenerate_index(s3, args: Opts):
 
     bucket.put_object(
         Body=listing.encode("utf-8"),
-        Key=f"{args.s3_prefix}/index.html",
+        Key=f"{s3_prefix}/index.html",
         ContentType="text/html; charset=utf-8",
     )
     print("updated index.html")
