@@ -20,7 +20,15 @@ dependencies {
     if(formatVersion == "v0") {
         implementation 'com.worksap.nlp:sudachi:0.8.0'
     } else { // v1
-        implementation 'com.worksap.nlp:sudachi:0.8.1'
+        //// Sudachi for v1 dict format is not yet released.
+        // implementation 'com.worksap.nlp:sudachi:0.8.1'
+
+        //// Use the local build of Sudachi instead.
+        //// This code assumes to run followings in Sudachi dir
+        ////   git checkout develop-v0.8
+        ////   ./gradlew clean build
+        ////   unzip build/distributions/sudachi-executable-*.zip -d build/distributions/v1
+        implementation fileTree(dir: 'path/to/sudachi/build/distributions/v1', include: ['*.jar'])
     }
     testImplementation 'junit:junit:4.13.1', 'org.hamcrest:hamcrest:2.1'
 }
