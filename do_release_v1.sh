@@ -32,7 +32,7 @@ python3 "$SCRIPT_DIR/scripts/01_upload_raw_dictionaries.py" \
 
 # upload binary dictionaries to s3
 python3 "$SCRIPT_DIR/scripts/02_upload_compiled_dictionaries.py" \
-  --input="$SCRIPT_DIR/build/distributions" \
+  --input="$SCRIPT_DIR/build/distributions/v1" \
   --version="$DICT_VERSION" \
   --aws_profile="$AWS_PROFILE" \
   --aws_mfa="$AWS_MFA_ID" \

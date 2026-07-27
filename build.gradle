@@ -122,10 +122,12 @@ dictionarySrc.entrySet().forEach {
         def compiledDict = compileTask.outputs.files.singleFile
 
         archiveBaseName = 'sudachi-dictionary'
-        archiveVersion.set(version)
+        archiveVersion.set("${sourceVersion}")
         archiveClassifier = name
-        from compiledDict, 'LEGAL', 'LICENSE-2.0.txt'
-        into "sudachi-dictionary-${version}"
+
+        from(compiledDict, 'LEGAL', 'LICENSE-2.0.txt')
+        into("sudachi-dictionary-${sourceVersion}")
+        destinationDirectory.set(layout.buildDirectory.dir("distributions/${formatVersion}"))
         dependsOn(compileTask)
     }
     tasks.named('build').configure { dependsOn(task) }
