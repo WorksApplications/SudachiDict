@@ -1,8 +1,10 @@
 import re
 from pathlib import Path
 
-from aws_common import CredentialCache
 from classopt import classopt, config
+
+from aws_common import CredentialCache
+from dictionary_format_version import DictionaryFormatVersion
 
 
 @classopt(default_long=True)
@@ -14,7 +16,9 @@ class Opts:
     aws_region: str = "ap-northeast-1"
     s3_bucket: str = "sudachi"
     s3_prefix: str = "sudachidict"
+    dictionary_format: DictionaryFormatVersion = DictionaryFormatVersion.V0
     no_latest: bool = config(action="store_true")
+    dryrun: bool = config(action="store_true")
 
 
 BINARY_DIC_PATTERN = re.compile("^sudachi-dictionary-.*-(small|core|full).zip$")
@@ -37,26 +41,38 @@ def prepare_files(args: Opts) -> list[Path]:
     return result
 
 
+def make_client(args: Opts):
+    return CredentialCache(args.aws_profile, args.aws_mfa).session.resource("s3", region_name=args.aws_region)
+
+
 def upload_files(s3, args: Opts, files: list[Path]):
     bucket = s3.Bucket(args.s3_bucket)
+    s3_prefix = f"{args.s3_prefix}{args.dictionary_format.s3_prefix()}"
     for file in files:
-        s3_key = f"{args.s3_prefix}/{file.name}"
+        s3_key = f"{s3_prefix}/{file.name}"
+        if args.dryrun:
+            print("put", file, "to", s3_key)
+            continue
+
         with file.open("rb") as f:
-            resp = bucket.put_object(Body=f, Key=s3_key, ContentType="application/zip")
-            print("put", file, "size", resp.content_length, "to", s3_key, "etag", resp.e_tag)
+            resp = bucket.put_object(
+                Body=f,
+                Key=s3_key,
+                ContentType="application/zip"
+            )
+        print("put", file, "size", resp.content_length, "to", s3_key, "etag", resp.e_tag)
 
-            if not args.no_latest:
-                latest_name = make_latest_name(file.name)
-                latest_s3_key = f"{args.s3_prefix}/{latest_name}"
-                bucket.put_object(Body=b"", Key=latest_s3_key, WebsiteRedirectLocation="/" + s3_key)
-                print("set", latest_s3_key, "redirect to", s3_key)
+        if not args.no_latest:
+            latest_name = make_latest_name(file.name)
+            latest_s3_key = f"{s3_prefix}/{latest_name}"
+            bucket.put_object(Body=b"", Key=latest_s3_key, WebsiteRedirectLocation="/" + s3_key)
+            print("set", latest_s3_key, "redirect to", s3_key)
 
 
-def main(opts: Opts):
-    session = CredentialCache(opts.aws_profile, opts.aws_mfa).session
-    files = prepare_files(opts)
-    s3 = session.resource("s3")
-    upload_files(s3, opts, files)
+def main(args: Opts):
+    files = prepare_files(args)
+    client = make_client(args)
+    upload_files(client, args, files)
 
 
 if __name__ == "__main__":

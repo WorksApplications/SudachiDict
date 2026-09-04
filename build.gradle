@@ -9,8 +9,34 @@ repositories {
     mavenCentral()
 }
 
+final String formatVersion = project.property("dict.format").toString()
+final String sourceVersion = project.property("dict.version").toString()
+
+if (!(formatVersion == "v0" || formatVersion == "v1")) {
+    throw new GradleException("Unsupported dictionary format version: $formatVersion.")
+}
+
+sourceSets {
+    // Use different source depending on the dictionary format version, as the API changes.
+    test {
+        java.srcDirs = ["src/test/java", "src/test/ext/${formatVersion}"]
+    }
+}
+
 dependencies {
-    implementation 'com.worksap.nlp:sudachi:0.7.2'
+    if(formatVersion == "v0") {
+        implementation 'com.worksap.nlp:sudachi:0.8.0'
+    } else { // v1
+        //// Sudachi for v1 dict format is not yet released.
+        // implementation 'com.worksap.nlp:sudachi:0.8.1'
+
+        //// Use the local build of Sudachi instead.
+        //// This code assumes to run followings in Sudachi dir
+        ////   git checkout develop-v0.8
+        ////   ./gradlew clean build
+        ////   unzip build/distributions/sudachi-executable-*.zip -d build/distributions/v1
+        implementation fileTree(dir: 'path/to/sudachi/build/distributions/v1', include: ['*.jar'])
+    }
     testImplementation 'junit:junit:4.13.1', 'org.hamcrest:hamcrest:2.1'
 }
 
@@ -33,55 +59,64 @@ def unzipMatrixDef = tasks.register('unzipMatrixDef', Copy) {
     inputs.file(zipFile)
 }
 
+def posCsvDownload = tasks.register("downloadPosCsv", Download) {
+    src "https://d2ej7fkh96fzlu.cloudfront.net/sudachidict-raw/v1/pos.csv"
+    dest new File(downloadCacheDir, "pos.csv")
+    overwrite false
+}
+
 def rawDictSrcs = dictionarySrc.collectMany { it.value }.toSet()
 
 rawDictSrcs.forEach { name ->
     final String capitalName = name.capitalize()
-    final String version = project.property("dict.version").toString()
 
     def downloadTask = tasks.register("download${capitalName}Zip", Download) {
         def filename = "${name}_lex.zip"
-        src "https://d2ej7fkh96fzlu.cloudfront.net/sudachidict-raw/${version}/$filename"
-        dest new File(downloadCacheDir, "${version}/$name/$filename")
+        src "https://d2ej7fkh96fzlu.cloudfront.net/sudachidict-raw/${formatVersion}/${sourceVersion}/$filename"
+        dest new File(downloadCacheDir, "${formatVersion}/${sourceVersion}/$name/$filename")
         overwrite false
-        inputs.property("version", version)
+        inputs.property("version", sourceVersion)
     }
 
     tasks.register("unzip${capitalName}Dict", Copy) {
         def zipFile = downloadTask.get().outputs.files.singleFile
-        def outputDir = new File(project.buildDir, "dict/raw/$version/$name")
+        def outputDir = new File(project.buildDir, "dict/raw/${formatVersion}/${sourceVersion}/$name")
         from zipTree(zipFile)
         into outputDir
         dependsOn(downloadTask)
     }
 }
 
-def builtDictDir = new File(project.buildDir, "dict/bin/${property("dict.version")}")
+def builtDictDir = new File(project.buildDir, "dict/bin/${formatVersion}/${sourceVersion}")
 
 dictionarySrc.entrySet().forEach { e ->
     def capitalName = e.key.capitalize()
-    def version = project.property("dict.version").toString()
     def name = e.key
 
     def compileTask = tasks.register("compile${capitalName}Dict", JavaExec) { t ->
         def sources = e.value.collect { source ->
             def srcName = source.toString().capitalize()
             t.dependsOn(tasks.named("unzip${srcName}Dict"))
-            def dictCsv = new File(project.buildDir, "dict/raw/$version/$source/${source}_lex.csv")
+            def dictCsv = new File(project.buildDir, "dict/raw/${formatVersion}/$sourceVersion/$source/${source}_lex.csv")
             t.inputs.file(dictCsv)
             dictCsv
         }
 
         def outputFile = new File(builtDictDir, "system_${name}.dic")
         def matrixFile = new File(unzipMatrixDef.get().outputs.files.singleFile, "matrix.def")
+        def posFile = new File(posCsvDownload.get().outputs.files.singleFile, "")
 
         t.mainClass.set("com.worksap.nlp.sudachi.dictionary.DictionaryBuilder")
         t.classpath = sourceSets.main.runtimeClasspath
-        t.args('-o', outputFile.toString(), '-m', matrixFile, '-d', "${version}", *sources)
-        t.maxHeapSize = "4g"
-        t.dependsOn unzipMatrixDef
+        if(formatVersion == "v0"){
+            t.args('-o', outputFile.toString(), '-m', matrixFile, '-d', "${sourceVersion}", *sources)
+        } else { // v1
+            t.args('-o', outputFile.toString(), '-m', matrixFile, '-p', posFile, '-d', "${sourceVersion}", *sources)
+        }
+        t.maxHeapSize = "5g" // may need to increase this for full dictionary
+        t.dependsOn(unzipMatrixDef, posCsvDownload)
         t.systemProperty('file.encoding', 'UTF-8')
-        t.inputs.file(matrixFile)
+        t.inputs.files(matrixFile, posFile, *sources)
         t.outputs.file(outputFile)
     }
     test.dependsOn(compileTask)
@@ -94,10 +129,12 @@ dictionarySrc.entrySet().forEach {
         def compiledDict = compileTask.outputs.files.singleFile
 
         archiveBaseName = 'sudachi-dictionary'
-        archiveVersion.set(version)
+        archiveVersion.set("${sourceVersion}")
         archiveClassifier = name
-        from compiledDict, 'LEGAL', 'LICENSE-2.0.txt'
-        into "sudachi-dictionary-${version}"
+
+        from(compiledDict, 'LEGAL', 'LICENSE-2.0.txt')
+        into("sudachi-dictionary-${sourceVersion}")
+        destinationDirectory.set(layout.buildDirectory.dir("distributions/${formatVersion}"))
         dependsOn(compileTask)
     }
     tasks.named('build').configure { dependsOn(task) }

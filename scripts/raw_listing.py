@@ -1,6 +1,8 @@
 import io
 from typing import IO
 
+from dictionary_format_version import DictionaryFormatVersion
+
 INLINE_TAGS = {"a", "span", "i"}
 
 
@@ -152,9 +154,21 @@ def compute_cols(data):
     return cols
 
 
-def render_doc(table=""):
+def render_doc(version=DictionaryFormatVersion.V0, table=""):
+    if version is DictionaryFormatVersion.V1:
+        structure = doc_structure_v1(table)
+    else:
+        structure = doc_structure_v0(table)
+
+    iobj = io.StringIO()
+    iobj.write("<!doctype html>\n")
+    DocumentRenderer(iobj).render(structure)
+
+    return iobj.getvalue()
+
+def doc_structure_v0(table=""):
     r = DocStructure()
-    structure = r.html(
+    return r.html(
         r.head(
             r.link(rel="stylesheet", href="/css/style.css"),
             r.title("Sudachi Dictionary Sources (CSV)"),
@@ -163,7 +177,7 @@ def render_doc(table=""):
         ),
         r.body(
             r.h1(
-                "Sudachi Dictionary Sources"
+                "Sudachi Dictionary Sources V0"
             ),
             r.p(
                 "You may also need the ",
@@ -176,16 +190,47 @@ def render_doc(table=""):
             table
         )
     )
-    iobj = io.StringIO()
-    iobj.write("<!doctype html>\n")
-    DocumentRenderer(iobj).render(structure)
 
-    return iobj.getvalue()
+def doc_structure_v1(table=""):
+    r = DocStructure()
+    return r.html(
+        r.head(
+            r.link(rel="stylesheet", href="/css/style.css"),
+            r.title("Sudachi Dictionary Sources (CSV)"),
+            r.meta(name="viewport", content="width=device-width, initial-scale=1"),
+            lang="en"
+        ),
+        r.body(
+            r.h1(
+                "Sudachi Dictionary Sources V1"
+            ),
+            r.p(
+                "This is a work in progress and subject to change without notice."
+            ),
+            r.p(
+                "You may also need the ",
+                r.a(
+                    "matrix.def",
+                    href="../matrix.def.zip",
+                ),
+                " file to build the binary dictionary."
+            ),
+            r.p(
+                "The distributed binary system dictionaries are built with ",
+                r.a(
+                    "pos.csv",
+                    href="pos.csv",
+                ),
+                " file."
+            ),
+            table
+        )
+    )
 
 
-def generate_raw_listing(s3, bucket="sudachi", prefix="sudachdic-raw") -> str:
+def generate_raw_listing(s3, bucket="sudachi", prefix="sudachidict-raw", version=DictionaryFormatVersion.V0) -> str:
     files = gather_files(s3, bucket, prefix)
-    return render_doc(render_table(files))
+    return render_doc(version, render_table(files))
 
 
 def _main():
@@ -194,7 +239,7 @@ def _main():
 
     s3 = CredentialCache(sys.argv[1], sys.argv[2]).session.resource("s3")
     table = generate_raw_listing(s3)
-    print(render_doc(table))
+    print(table)
 
 
 if __name__ == '__main__':
