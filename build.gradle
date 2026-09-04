@@ -16,6 +16,13 @@ if (!(formatVersion == "v0" || formatVersion == "v1")) {
     throw new GradleException("Unsupported dictionary format version: $formatVersion.")
 }
 
+sourceSets {
+    // Use different source depending on the dictionary format version, as the API changes.
+    test {
+        java.srcDirs = ["src/test/java", "src/test/ext/${formatVersion}"]
+    }
+}
+
 dependencies {
     if(formatVersion == "v0") {
         implementation 'com.worksap.nlp:sudachi:0.8.0'
