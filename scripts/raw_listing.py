@@ -205,9 +205,6 @@ def doc_structure_v1(table=""):
                 "Sudachi Dictionary Sources V1"
             ),
             r.p(
-                "This is a work in progress and subject to change without notice."
-            ),
-            r.p(
                 "You may also need the ",
                 r.a(
                     "matrix.def",
