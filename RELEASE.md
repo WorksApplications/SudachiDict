@@ -63,3 +63,12 @@ Note that `export` commands here start with spaces and they won't be saved to ba
 
 Packages are built into <root>/build/python directory.
 We upload all files from `sdist` directory and `wheels` which are less than 100MB.
+
+## Upload assets to Github Release
+
+We add followings to github relase assets.
+
+- Python packages (V1 format)
+  - `build/python/wheels/sudachidict_*.whl`
+- Binary dictionary (V1 format)
+  - `build/distributions/v1/sudachi-dictionary-*.zip`
