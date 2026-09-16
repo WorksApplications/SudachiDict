@@ -44,7 +44,7 @@ Arguments (positional):
 5. MFA arn for the user
 6. (optional) version string for Python package
 
-This kicks python packaging only when the format version is `v0`.
+This kicks python packaging only when the format version is `v1`.
 
 ## Setup twine
 
@@ -69,6 +69,6 @@ We upload all files from `sdist` directory and `wheels` which are less than 100M
 We add followings to github relase assets.
 
 - Python packages (V1 format)
-  - `build/python/wheels/sudachidict_*.whl`
+  - `build/python/wheels/SudachiDict_*.whl`
 - Binary dictionary (V1 format)
   - `build/distributions/v1/sudachi-dictionary-*.zip`

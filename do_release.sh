@@ -61,8 +61,8 @@ python3 "$SCRIPT_DIR/scripts/02_upload_compiled_dictionaries.py" \
   --dictionary_format "$FORMAT_VERSION"
 
 # build python distributions
-if [ "$FORMAT_VERSION" = "v0" ]; then
-  bash $SCRIPT_DIR/package_python.sh "$DICT_VERSION" "$PY_PACKAGE_VERSION"
-else # v1
-  >&2 echo "We only kick python packaging for dictionary format version V0."
+if [ "$FORMAT_VERSION" = "v1" ]; then
+  bash $SCRIPT_DIR/package_python.sh "$FORMAT_VERSION" "$DICT_VERSION" "$PY_PACKAGE_VERSION"
+else # v0
+  >&2 echo "We only kick python packaging for dictionary format version V1."
 fi

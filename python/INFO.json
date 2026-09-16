@@ -1,5 +1,6 @@
 {
     "version": "%%VERSION%%",
+    "dictionary_format": "%%DICT_FORMAT%%",
     "dict_version": "%%DICT_VERSION%%",
     "edition": "%%DICT_TYPE%%"
 }
