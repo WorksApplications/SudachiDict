@@ -1,28 +1,58 @@
 # SudachiDict
 
-A lexicon for Japanese tokenizer
-[Sudachi](https://github.com/WorksApplications/Sudachi/).
+A lexicon for Japanese tokenizer [Sudachi](https://github.com/WorksApplications/Sudachi/) and [sudachi.rs/SudachiPy](https://github.com/WorksApplications/sudachi.rs).
+
+## Dictionary types
+
+Sudachi has three types of dictionaries.
+
+- Small: includes only the vocabulary of UniDic
+- Core: includes basic vocabulary (default)
+- Full: includes miscellaneous proper nouns
+
+### Dictionary format version
+
+> **IMPORTANT**
+> Dictionary binary format is changed to V1 from v202610.
+
+There are two distinct versions:
+
+- V1
+  - Supported by Sudachi v0.8.2, sudachi.rs/SudachiPy v0.7, and latter.
+- V0
+  - Supported by Sudachi v0.8.1, sudachi.rs/SudachiPy v0.6, and former.
+
+Those formats are not compatible each other. You must use the corresponding version with the Sudachi/sudachi.rs/SudachiPy.
+Note that from v202610 the assets in the github release pages are V1 format. If you want to use V0 binary of newer source versions, you must get the V0 source files and build it by yourself.
 
 ## Download
 
-Click [here](http://sudachi.s3-website-ap-northeast-1.amazonaws.com/sudachidict/) for pre-built dictionaries.
+Click [here](http://sudachi.s3-website-ap-northeast-1.amazonaws.com/sudachidict/v1) for pre-built V1 dictionaries.
+You can get source csv files from [here](http://sudachi.s3-website-ap-northeast-1.amazonaws.com/sudachidict-raw/v1).
+
+If you want V0 format dictionary, access followings.
+We will stop releasing V0 dictionary in the future.
+- [Binary dictionary (V0)](http://sudachi.s3-website-ap-northeast-1.amazonaws.com/sudachidict/v0)
+- [Source file (V0)](http://sudachi.s3-website-ap-northeast-1.amazonaws.com/sudachidict-raw/v0)
 
 Pre-built synonym dictionaries for [Chikkar](https://github.com/WorksApplications/chikkar/) is [here](http://sudachi.s3-website-ap-northeast-1.amazonaws.com/sudachisynonym/).
 
 ### Python packages
 
-You can install the dictionaries for [WorksApplications/SudachiPy](https://github.com/WorksApplications/SudachiPy), the Python version of Sudachi, as Python packages.
+You can install the dictionaries for [WorksApplications/SudachiPy](https://github.com/WorksApplications/sudachi.rs/tree/develop/python), the Python version of Sudachi, as Python packages.
+
+> **IMPORTANT**
+> From v202610, SudachiDict-* provides the dictionary in new binary format (V1).
+> As the V0/V1 binaries are incompatible, SudachiPy v0.7 requires that or latter SudachiDict versions, and SudachiPy v0.6 requires former versions.
 
 In SudachiPy v0.5.2 and later, you can specify a dictionary directly from a command line or program.
 
-**WARNING: `sudachipy link` is no longer available in SudachiPy v0.5.2 and later.**
+> **WARNING: `sudachipy link` is no longer available in SudachiPy v0.5.2 and later.**
 
 please see the following links for more details on the dictionary option.
 
 - english
-  - [https://github.com/WorksApplications/SudachiPy#dictionary-edition](https://github.com/WorksApplications/SudachiPy#dictionary-edition)
-- japanese
-  - [https://github.com/WorksApplications/SudachiPy/blob/develop/docs/tutorial.md#辞書の種類](https://github.com/WorksApplications/SudachiPy/blob/develop/docs/tutorial.md#%E8%BE%9E%E6%9B%B8%E3%81%AE%E7%A8%AE%E9%A1%9E)
+  - [https://github.com/WorksApplications/sudachi.rs/tree/develop/python#dictionary-edition](https://github.com/WorksApplications/sudachi.rs/tree/develop/python#dictionary-edition)
 
 #### Install
 
@@ -42,22 +72,15 @@ pip install sudachidict_full
 - [SudachiDict-core · PyPI](https://pypi.org/project/SudachiDict-core/)
 - [SudachiDict-full · PyPI](https://pypi.org/project/SudachiDict-full/)
 
-## Dictionary types
-
-Sudachi has three types of dictionaries.
-
-- Small: includes only the vocabulary of UniDic
-- Core: includes basic vocabulary (default)
-- Full: includes miscellaneous proper nouns
-
 ## Build from sources
 
-
-Dictionary sources were hosted on git lfs, but [are hosted on S3](http://sudachi.s3-website-ap-northeast-1.amazonaws.com/sudachidict-raw/) now.
+Dictionary sources were hosted on git lfs, but [are hosted on S3](http://sudachi.s3-website-ap-northeast-1.amazonaws.com/sudachidict-raw/v1) now.
 They will be moved to github in the future once more.
 
 At the moment, you need to manually download required files from the AWS S3, and unzip them into the `src/main/text` directory.
 Core dictionary requires small and core files, Full requires all three files.
+
+V0 format source files are disributed [here](http://sudachi.s3-website-ap-northeast-1.amazonaws.com/sudachidict-raw/v0) (we will stop releasing V0 dictionary in the future).
 
 ## Licenses
 

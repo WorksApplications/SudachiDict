@@ -25,15 +25,26 @@ pip install -r scripts/requirements.txt
 ## Use basic release script
 
 ```bash
-bash do_release.sh DIC_VERSION /path/to/csv/dics aws-profile arn:aws:iam::0123456789:mfa/iam_user
+bash do_release.sh FORMAT_VERSION DIC_VERSION /path/to/zipped/csv/dics aws-profile arn:aws:iam::0123456789:mfa/iam_user
+
+# ex.
+# ./lexicons/v0/
+#   - small_lex.zip
+#   - core_lex.zip
+#   - notcore_lex.zip
+bash do_release.sh v0 20260901 ./lexicons/v0 aws-profile arn:aws:iam::0123456789:mfa/iam_user
 ```
 
 Arguments (positional):
-1. Path to csv dictionaries, should contain small_lex.zip, core_lex.zip, notcore_lex.zip files
-2. Version for new release (as dictionaries will be uploaded with)
-3. Configured profile for AWS for Sudachi
-4. MFA arn for the user
-5. (optional) version string for Python package
+1. Format version to work with (`v0` or `v1`)
+2. Version for new release (as dictionaries will be uploaded with), `YYYYMMDD`
+3. Path to zipped csv dictionaries, should contain small_lex.zip, core_lex.zip, notcore_lex.zip files
+  - Note that although v0/v1 uses the same file names, their content is different (lexicon csv also has v0/v1 format).
+4. Configured profile for AWS for Sudachi
+5. MFA arn for the user
+6. (optional) version string for Python package
+
+This kicks python packaging only when the format version is `v1`.
 
 ## Setup twine
 
@@ -52,3 +63,12 @@ Note that `export` commands here start with spaces and they won't be saved to ba
 
 Packages are built into <root>/build/python directory.
 We upload all files from `sdist` directory and `wheels` which are less than 100MB.
+
+## Upload assets to Github Release
+
+We add followings to github relase assets.
+
+- Python packages (V1 format)
+  - `build/python/wheels/SudachiDict_*.whl`
+- Binary dictionary (V1 format)
+  - `build/distributions/v1/sudachi-dictionary-*.zip`

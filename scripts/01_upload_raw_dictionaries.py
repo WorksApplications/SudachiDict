@@ -1,8 +1,9 @@
 from pathlib import Path
 
-from classopt import classopt
+from classopt import classopt, config
 
 from aws_common import CredentialCache
+from dictionary_format_version import DictionaryFormatVersion
 from fs_common import validate_file
 from raw_listing import generate_raw_listing
 
@@ -16,6 +17,8 @@ class Opts:
     aws_region: str = "ap-northeast-1"
     s3_bucket: str = "sudachi"
     s3_prefix: str = "sudachidict-raw"
+    dictionary_format: DictionaryFormatVersion = DictionaryFormatVersion.V0
+    dryrun: bool = config(action="store_true")
 
 
 def validate_files(args: Opts) -> list[Path]:
@@ -26,30 +29,40 @@ def validate_files(args: Opts) -> list[Path]:
     ]
 
 
-def make_client(args):
+def make_client(args: Opts):
     return CredentialCache(args.aws_profile, args.aws_mfa).session.resource("s3", region_name=args.aws_region)
 
 
 def upload_files(client, args: Opts, files: list[Path]):
     bucket = client.Bucket(args.s3_bucket)
+    s3_prefix = f"{args.s3_prefix}{args.dictionary_format.s3_prefix()}"
     for file in files:
-        s3_key = f"{args.s3_prefix}/{args.version}/{file.name}"
+        s3_key = f"{s3_prefix}/{args.version}/{file.name}"
+        if args.dryrun:
+            print("put", file, "to", s3_key)
+            continue
+
         with file.open('rb') as f:
             resp = bucket.put_object(
                 Body=f,
                 Key=s3_key,
                 ContentType='application/zip'
             )
-            print("put", file, "size", resp.content_length, "to", s3_key, "etag", resp.e_tag)
+        print("put", file, "size", resp.content_length, "to", s3_key, "etag", resp.e_tag)
 
 
 def regenerate_index(s3, args: Opts):
-    listing = generate_raw_listing(s3, args.s3_bucket, args.s3_prefix)
+    s3_prefix = f"{args.s3_prefix}{args.dictionary_format.s3_prefix()}"
+    listing = generate_raw_listing(s3, args.s3_bucket, s3_prefix, args.dictionary_format)
     bucket = s3.Bucket(args.s3_bucket)
+
+    if args.dryrun:
+        print(listing)
+        return
 
     bucket.put_object(
         Body=listing.encode("utf-8"),
-        Key=f"{args.s3_prefix}/index.html",
+        Key=f"{s3_prefix}/index.html",
         ContentType="text/html; charset=utf-8",
     )
     print("updated index.html")

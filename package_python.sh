@@ -3,6 +3,12 @@ set -e
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+if [ -z "$1" ]; then
+    echo "Usage: $0 <FORMAT_VERSION> [DICT_VERSION] [PY_PACKAGE_VERSION]"
+    exit 1
+fi
+FORMAT_VERSION=$1; shift
+
 # guess versions
 if [ -z "$1" ]; then
     DICT_VERSION=$("$SCRIPT_DIR/gradlew" -q showVersion)
@@ -16,10 +22,10 @@ else
     fi
 fi
 
-echo "VERSION=$VERSION, DICT_VERSION=$DICT_VERSION"
+echo "FORMAT_VERSION=$FORMAT_VERSION, VERSION=$VERSION, DICT_VERSION=$DICT_VERSION"
 
 PACKAGES_ROOT="$SCRIPT_DIR/build/python"
-BINARY_DIC_ROOT="$SCRIPT_DIR/build/dict/bin/$DICT_VERSION"
+BINARY_DIC_ROOT="$SCRIPT_DIR/build/dict/bin/$FORMAT_VERSION/$DICT_VERSION"
 
 if [ -z "$NO_WHEELS" ] && [ ! -d "$BINARY_DIC_ROOT" ]; then
   echo "binary dictionaries are not present in $BINARY_DIC_ROOT"
@@ -49,7 +55,7 @@ do
     cp LICENSE-2.0.txt "${temp}"
     cp python/MANIFEST.in "${temp}"
     cp python/setup.py "${temp}"
-    cat python/INFO.json | sed "s/%%VERSION%%/${VERSION}/g" | sed "s/%%DICT_VERSION%%/${DICT_VERSION}/g" | sed "s/%%DICT_TYPE%%/${dict_type}/g" > ${temp}/INFO.json
+    cat python/INFO.json | sed "s/%%VERSION%%/${VERSION}/g" | sed "s/%%DICT_VERSION%%/${DICT_VERSION}/g" | sed "s/%%DICT_TYPE%%/${dict_type}/g" | sed "s/%%DICT_FORMAT%%/${FORMAT_VERSION}/g" > ${temp}/INFO.json
 
     if [ -z "$NO_WHEELS" ]; then
       # build a wheel with binary dictionaries included

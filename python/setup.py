@@ -1,4 +1,4 @@
-# Copyright (c) 2020-2023 Works Applications Co., Ltd.
+# Copyright (c) 2020-2026 Works Applications Co., Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,14 +25,19 @@ with open("INFO.json") as fh:
 PKG_VERSION = dict_info["version"]
 DICT_VERSION = dict_info["dict_version"]
 DICT_EDITION = dict_info["edition"]
+DICT_FORMAT = dict_info.get("dictionary_format", "v0")
 
-ZIP_URL = "https://d2ej7fkh96fzlu.cloudfront.net/sudachidict/" \
-          "sudachi-dictionary-{}-{}.zip".format(DICT_VERSION, DICT_EDITION)
+BASE_URL = "https://d2ej7fkh96fzlu.cloudfront.net/sudachidict"
+if DICT_FORMAT == "v1":
+    BASE_URL += "/v1"
+else: # v0
+    BASE_URL += "/v0"
+ZIP_URL = f"{BASE_URL}/sudachi-dictionary-{DICT_VERSION}-{DICT_EDITION}.zip"
 ZIP_NAME = urlparse(ZIP_URL).path.split("/")[-1]
-UNZIP_NAME = "sudachi-dictionary-{}".format(DICT_VERSION)
-PKG_DIR = "sudachidict_{}".format(DICT_EDITION)
+UNZIP_NAME = f"sudachi-dictionary-{DICT_VERSION}"
+PKG_DIR = f"sudachidict_{DICT_EDITION}"
 RESOURCE_DIR = os.path.join(PKG_DIR, "resources")
-BINARY_NAME = "system_{}.dic".format(DICT_EDITION)
+BINARY_NAME = f"system_{DICT_EDITION}.dic"
 
 # Download and place the dictionary file
 if not os.path.exists(RESOURCE_DIR):
@@ -44,15 +49,15 @@ if not os.path.exists(RESOURCE_DIR):
     os.rename(os.path.join(RESOURCE_DIR, BINARY_NAME),
               os.path.join(RESOURCE_DIR, "system.dic"))
     os.remove(ZIP_NAME)
-    print("downloaded and extracted dictionary to `{}`.".format(RESOURCE_DIR), file=sys.stderr)
+    print(f"downloaded and extracted dictionary to `{RESOURCE_DIR}`.", file=sys.stderr)
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="SudachiDict-{}".format(DICT_EDITION),
+    name=f"SudachiDict-{DICT_EDITION}",
     version=PKG_VERSION,
-    description="Sudachi Dictionary for SudachiPy - {} Edition".format(DICT_EDITION.title()),
+    description=f"Sudachi Dictionary for SudachiPy - {DICT_EDITION.title()} Edition",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/WorksApplications/SudachiDict",
@@ -62,6 +67,6 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     package_data={"": ["resources/*"]},
     install_requires=[
-        "SudachiPy>=0.5,<0.7"
+        "SudachiPy>=0.7.0,<2.0" if DICT_FORMAT == "v1" else "SudachiPy>=0.5,<0.7"
     ],
 )
