@@ -20,7 +20,7 @@ from urllib.parse import urlparse
 from urllib.request import urlretrieve
 from zipfile import ZipFile
 
-with open("INFO.json") as fh:
+with open("INFO.json", encoding="utf-8") as fh:
     dict_info = json.load(fh)
 PKG_VERSION = dict_info["version"]
 DICT_VERSION = dict_info["dict_version"]
